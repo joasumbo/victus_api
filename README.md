@@ -32,7 +32,7 @@ Este backend serve como provedor de dados para um frontend (Vue.js ou outro clie
 
 ```bash
 # 1. Clonar o projeto
-git clone https://github.com/seu-user/seu-repo.git
+git clone https://github.com/joasumbo/victus_api.git
 cd seu-repo
 
 # 2. Instalar dependências
