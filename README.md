@@ -1,4 +1,3 @@
-
 ---
 
 # 📚 API Victus
@@ -55,12 +54,35 @@ php artisan migrate
 # 7. Gerar a chave secreta do JWT
 php artisan jwt:secret
 
-# 8. Storage link
+# 8. Criar o link de storage
 php artisan storage:link
 
 # 9. Iniciar o servidor local
 php artisan serve
 ```
+
+---
+
+## 📧 Configuração de E-mail (SMTP) — **IMPORTANTE**
+
+A API utiliza envio de e-mails para **recuperação de senha**.
+Você deve configurar as variáveis abaixo no seu `.env` para que o **Forgot Password** funcione corretamente.
+
+### **Exemplo usando [Mailtrap](https://mailtrap.io):**
+
+```env
+MAIL_MAILER=smtp
+MAIL_HOST=sandbox.smtp.mailtrap.io
+MAIL_PORT=2525
+MAIL_USERNAME=seu_usuario_mailtrap
+MAIL_PASSWORD=sua_senha_mailtrap
+MAIL_ENCRYPTION=tls
+MAIL_FROM_ADDRESS=no-reply@victus.com
+MAIL_FROM_NAME="Victus API"
+```
+
+> 💡 **Dica:** Recomendamos usar o [Mailtrap](https://mailtrap.io) em ambiente de desenvolvimento.
+> Em produção, configure um serviço real, como **Gmail SMTP**, **SendGrid** ou **Amazon SES**.
 
 ---
 
@@ -88,6 +110,14 @@ Authorization: Bearer {token}
 * `POST /api/logout` → Logout (token inválido)
 * `GET /api/me` → Dados do usuário autenticado
 
+### 📧 Recuperação de Senha
+
+* `POST /api/forgot-password` → Enviar link de redefinição para o e-mail
+* `POST /api/reset-password` → Redefinir a senha
+
+> ✅ **Novo:** A funcionalidade de **recuperação de senha** já está funcionando!
+> Basta configurar o SMTP no `.env`.
+
 ### 📚 Bibliotecas
 
 * `GET /api/libraries` → Listar bibliotecas
@@ -113,6 +143,8 @@ app/
  │   └── Video.php
  ├── Http/Controllers/
  │   ├── AuthController.php
+ │   ├── ForgotPasswordController.php   <- NOVO
+ │   ├── ResetPasswordController.php    <- NOVO
  │   ├── LibraryController.php
  │   └── VideoController.php
 routes/
@@ -143,5 +175,6 @@ composer run dev
 * Uploads de vídeos estão configurados para o **filesystem local** (`storage/app`).
 * Pode-se configurar armazenamento externo (S3, DigitalOcean Spaces, etc.) editando o `.env`.
 * Broadcasting está habilitado com **Laravel Reverb** (porta padrão `8080`).
+* Agora a funcionalidade de **esqueci minha senha** está 100% funcional. 🎉
 
 ---
